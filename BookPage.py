@@ -3,71 +3,81 @@ import requests
 import csv
 from bs4 import BeautifulSoup
 
-def extract_and_transform_image_link(soup, allInfos):
-	imageBookHtml=soup.find('img')
-	imageBook = imageBookHtml['src']
-	imageBook = imageBook.split("/")
-	del imageBook[0:2]
-	imageBook = "https://books.toscrape.com/" + "/".join(imageBook)
-	print(f"the link of the picture is : {imageBook}")
-	allInfos["Image_url"] = imageBook
 
-def extract_and_transform_title(infos, allInfos):
-	title = infos.h1.string
-	print(f"The title of the book is : {title}")
-	allInfos["Title"] = title
+def extract_and_transform_image_link(product_page_soup, product_infos_to_load):
+    image_book_url_from_html_page = product_page_soup.find('img')['src']
+    image_book_url_to_load = image_book_url_from_html_page.replace("../../", "https://books.toscrape.com/")
+    print(f"the link of the picture is : {image_book_url_to_load}")
+    product_infos_to_load["image_url"] = image_book_url_to_load
 
-def extract_and_transform_stock_available(infos, allInfos):
-	stockHtml = infos.find('p', class_ = 'instock availability')
-	stock = stockHtml.text.strip().split()[2]
-	stock = stock.replace('(', '')
-	print(f"The available stock is : {stock}")
-	allInfos["Stock"] = stock
 
-def extract_and_transform_rating(infos, allInfos):
-	ratinghtml = infos.find('p', class_ = re.compile("star-rating"))
-	rating = ratinghtml["class"][1]
-	print(f"The rating of the book is : {rating}")
-	allInfos["Rating"] = rating
+def extract_and_transform_title(product_main_infos_from_html_page, product_infos_to_load):
+    title_from_html_page = product_main_infos_from_html_page.h1.string
+    print(f"The title of the book is : {title_from_html_page}")
+    product_infos_to_load["title"] = title_from_html_page
 
-def extract_and_transform_title_stock_available_and_rating(soup, allInfos):
-	infos = soup.find('div', class_='col-sm-6 product_main')
-	extract_and_transform_title(infos, allInfos)
-	extract_and_transform_stock_available(infos, allInfos)
-	extract_and_transform_rating(infos, allInfos)
 
-def extract_and_transform_description(soup, allInfos):
-	headerDescriptionhtml = soup.find('div', id='product_description', class_="sub-header")
-	if headerDescriptionhtml:
-		description = headerDescriptionhtml.findNext("p").string
-		print(f"The description of the book is : {description}")
-		allInfos["Description"] = description
-	else:
-		allInfos["Description"] = "none"
+def extract_and_transform_stock_available(product_main_infos_from_html_page, product_infos_to_load):
+    stock_available_from_html_page = product_main_infos_from_html_page.find('p', class_='instock availability').text
+    stock_available_to_load = re.findall(r'\d+', stock_available_from_html_page)[0]
+    print(f"The available stock is : {stock_available_to_load}")
+    product_infos_to_load["number_available"] = stock_available_to_load
 
-def extract_and_transform_upc_and_price(soup, allInfos):
-	table = soup.find('table', class_="table table-striped")
-	addInfos = table.find_all('tr')
-	for info in addInfos:
-		if info.th.string == "UPC" or info.th.string == "Price (excl. tax)" or info.th.string == "Price (incl. tax)":
-			allInfos[info.th.string] = info.td.string
 
-def load_infos_in_csv(allInfos, nameFile):
-	fieldnames = ['Image_url', 'Title', 'Stock', 'Rating', 'Description', 'UPC', 'Price (excl. tax)',
-				  'Price (incl. tax)']
-	with open(nameFile, 'a') as file:
-		writer = csv.DictWriter(file, fieldnames=fieldnames)
-		writer.writerow(allInfos)
+def extract_and_transform_rating(product_main_infos_from_html_page, product_infos_to_load):
+    review_rating_from_html_page = product_main_infos_from_html_page.find('p', class_=re.compile("star-rating"))["class"][1]
+    print(f"The rating of the book is : {review_rating_from_html_page}")
+    product_infos_to_load["review_rating"] = review_rating_from_html_page
 
-def extract_and_transform_infos_from_html_page(allInfos, book):
-	page_of_book = requests.get(book)
-	soup_of_book = BeautifulSoup(page_of_book.content, 'html.parser')
-	extract_and_transform_image_link(soup_of_book, allInfos)
-	extract_and_transform_title_stock_available_and_rating(soup_of_book, allInfos)
-	extract_and_transform_description(soup_of_book, allInfos)
-	extract_and_transform_upc_and_price(soup_of_book, allInfos)
 
-def extract_transform_load_all_infos_in_csv(book, nameFile):
-	allInfos = {}
-	extract_and_transform_infos_from_html_page(allInfos, book)
-	load_infos_in_csv(allInfos, nameFile)
+def extract_and_transform_title_stock_available_and_rating(product_page_soup, allInfos):
+    product_main_infos_from_html_page = product_page_soup.find('div', class_='col-sm-6 product_main')
+    extract_and_transform_title(product_main_infos_from_html_page, allInfos)
+    extract_and_transform_stock_available(product_main_infos_from_html_page, allInfos)
+    extract_and_transform_rating(product_main_infos_from_html_page, allInfos)
+
+
+def extract_and_transform_description(product_page_soup, product_infos_to_load):
+    description_section_from_html_page = product_page_soup.find('div', id='product_description', class_="sub-header")
+    if description_section_from_html_page:
+        product_description_from_html_page = description_section_from_html_page.findNext("p").string
+        print(f"The description of the book is : {product_description_from_html_page}")
+        product_infos_to_load["product_description"] = product_description_from_html_page
+    else:
+        product_infos_to_load["product_description"] = "none"
+
+
+def extract_and_transform_upc_and_price(product_page_soup, product_infos_to_load):
+    product_infos_table_from_html_page = product_page_soup.find('table', class_="table table-striped").find_all('tr')
+    for product_info in product_infos_table_from_html_page:
+        name_info = product_info.th.string
+        value_info = product_info.td.string
+        if name_info == "UPC":
+            product_infos_to_load["universal_ product_code (upc)"] = value_info
+        elif name_info == "Price (excl. tax)":
+            product_infos_to_load["price_excluding_tax"] = value_info
+        elif name_info == "Price (incl. tax)":
+            product_infos_to_load["price_including_tax"] = value_info
+
+
+def load_infos_in_csv(product_infos_to_load, file_csv_name):
+    fieldnames = ['product_page_url', 'image_url', 'title', 'number_available', 'review_rating', 'product_description',
+                  'universal_ product_code (upc)', 'price_excluding_tax', 'price_including_tax']
+    with open(file_csv_name, 'a') as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        writer.writerow(product_infos_to_load)
+
+
+def extract_and_transform_infos_from_html_page(product_infos_to_load, product_page_url):
+    product_page_html = requests.get(product_page_url)
+    product_page_soup = BeautifulSoup(product_page_html.content, 'html.parser')
+    extract_and_transform_image_link(product_page_soup, product_infos_to_load)
+    extract_and_transform_title_stock_available_and_rating(product_page_soup, product_infos_to_load)
+    extract_and_transform_description(product_page_soup, product_infos_to_load)
+    extract_and_transform_upc_and_price(product_page_soup, product_infos_to_load)
+
+
+def extract_transform_load_all_infos_in_csv(product_page_url, file_csv_name):
+    product_infos_to_load = {"product_page_url": product_page_url}
+    extract_and_transform_infos_from_html_page(product_infos_to_load, product_page_url)
+    load_infos_in_csv(product_infos_to_load, file_csv_name)
