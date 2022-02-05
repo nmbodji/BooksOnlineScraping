@@ -35,9 +35,16 @@ def create_directory_for_one_category_pictures(category_name, pictures_directory
 
 def create_csv_file_for_loading(category_name, csv_files_directory):
     csv_file_for_loading = csv_files_directory + category_name + ".csv"
-    fieldnames = ['product_page_url', 'image_url', 'title', 'number_available', 'review_rating', 'product_description',
-                  'universal_ product_code (upc)', 'price_excluding_tax',
-                  'price_including_tax']
+    fieldnames = ['product_page_url',
+                  'universal_ product_code (upc)',
+                  'title',
+                  'price_including_tax',
+                  'price_excluding_tax',
+                  'number_available',
+                  'product_description',
+                  'category',
+                  'review_rating',
+                  'image_url']
     with open(csv_file_for_loading, 'a') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
