@@ -19,9 +19,11 @@ soup_web_html_page = BeautifulSoup(web_html_page.content, 'html.parser')
 all_html_category = soup_web_html_page.find('ul', class_='nav nav-list').ul.find_all('li')
 os.mkdir("csvFiles")
 for category in all_html_category:
-    nameFile = category.a.string.strip() + ".csv"
+    category_name = category.a.string.strip()
+    os.mkdir(category_name)
+    nameFile = category_name + ".csv"
     nameFile = "csvFiles/" + nameFile
     create_csv_file(nameFile)
     print(category.a.string.strip())
     product_category_url = "https://books.toscrape.com/" + category.a["href"]
-    CategoryPage.extract_transform_load_all_books_infos_from_category(product_category_url, nameFile)
+    CategoryPage.extract_transform_load_all_books_infos_from_category(product_category_url, nameFile, category_name)

@@ -25,7 +25,8 @@ def extract_and_transform_stock_available(product_main_infos_from_html_page, pro
 
 
 def extract_and_transform_rating(product_main_infos_from_html_page, product_infos_to_load):
-    review_rating_from_html_page = product_main_infos_from_html_page.find('p', class_=re.compile("star-rating"))["class"][1]
+    review_rating_from_html_page = \
+        product_main_infos_from_html_page.find('p', class_=re.compile("star-rating"))["class"][1]
     print(f"The rating of the book is : {review_rating_from_html_page}")
     product_infos_to_load["review_rating"] = review_rating_from_html_page
 
@@ -60,12 +61,18 @@ def extract_and_transform_upc_and_price(product_page_soup, product_infos_to_load
             product_infos_to_load["price_including_tax"] = value_info
 
 
-def load_infos_in_csv(product_infos_to_load, file_csv_name):
+def load_infos_in_csv(product_infos_to_load, file_csv_name, category_name):
     fieldnames = ['product_page_url', 'image_url', 'title', 'number_available', 'review_rating', 'product_description',
                   'universal_ product_code (upc)', 'price_excluding_tax', 'price_including_tax']
     with open(file_csv_name, 'a') as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writerow(product_infos_to_load)
+
+    transformed_title = product_infos_to_load['title'].replace("/", "-")
+    filename = category_name + '/' + transformed_title + '.jpg'
+    with open(filename, 'wb') as file:
+        response = requests.get(product_infos_to_load['image_url'])
+        file.write(response.content)
 
 
 def extract_and_transform_infos_from_html_page(product_infos_to_load, product_page_url):
@@ -77,7 +84,7 @@ def extract_and_transform_infos_from_html_page(product_infos_to_load, product_pa
     extract_and_transform_upc_and_price(product_page_soup, product_infos_to_load)
 
 
-def extract_transform_load_all_infos_in_csv(product_page_url, file_csv_name):
+def extract_transform_load_all_infos_in_csv(product_page_url, file_csv_name, category_name):
     product_infos_to_load = {"product_page_url": product_page_url}
     extract_and_transform_infos_from_html_page(product_infos_to_load, product_page_url)
-    load_infos_in_csv(product_infos_to_load, file_csv_name)
+    load_infos_in_csv(product_infos_to_load, file_csv_name, category_name)
