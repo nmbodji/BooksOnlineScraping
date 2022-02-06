@@ -1,4 +1,4 @@
-#Manuel d'utilisation de l'application BooksOnlineScraping
+# Manuel d'utilisation de l'application BooksOnlineScraping
 
 BooksOnlineScraping est une application de Books Online qui permet de récupérer certaines informations de tous les livres 
 mis en ligne par Books To scrape : une [librairie en ligne](http://books.toscrape.com) .
@@ -23,30 +23,30 @@ Cette application permet de suivre les prix du concurrent Books To Scrape de fa�
 Cette première version est une version bêta qui ne permet pas une surveillance en temps réel des prix sur la durée.En effet, 
 il s'agit simplement d'une application exécutable à la demande visant à récupérer les prix au moment de son exécution.
 
-#Première étape : Ouvrir un terminal 
+# Première étape : Ouvrir un terminal 
 
 Un terminal est une application permettant de dialoguer avec son ordinateur via l’écriture de lignes de commande.
 C'est par cette application que vous allez demander à l'ordinateur d'excécuter BooksOnlineScraping
 
-##Si vous êtes sur linux
+## Si vous êtes sur linux
 Vous pouvez directement ouvrir un terminal en suivant les instructions suivantes :
 ```
 Cliquez sur Applications > Accessoires > Terminal.
 ```
 Vous pouvez également utiliser le raccourci : Ctrl + Alt + T
 
-##Si vous êtes sur Mac
+## Si vous êtes sur Mac
 Vous pouvez accéder à un terminal via :
 ```
 Applications > Utilitaires > Terminal.app
 ```
 
-##Si vous êtes sur Windows
+## Si vous êtes sur Windows
 Vous devez télécharger l'application via deux options :
 - soit  "Cygwin", que vous pouvez télécharger et installer en suivant les instructions du [site officiel](https://www.cygwin.com/install.html)
 - soit Le shell Bash pour Windows, que vous pouvez installer en suivant  (en français).[les instructions officielles de Microsoft](https://www.cygwin.com/install.html)
 
-#Deuxième étape : Télécharger python
+# Deuxième étape : Télécharger python
 L'application BooksOnlineScraping a été codé avec Python 3.9.7
 Vous pouvez télécharger cette version de python via ce [lien](https://www.python.org/downloads/)
 Si vous avez déjà python, et que vous voulez voir quelle version vous avez, tapez la commande ci-dessous : 
@@ -54,7 +54,7 @@ Si vous avez déjà python, et que vous voulez voir quelle version vous avez, ta
 > python --version
 Python 3.9.7
 ```
-#Troisième étape : Télécharger BooksOnlineScraping dans le dossier que vous souhaitez
+# Troisième étape : Télécharger BooksOnlineScraping dans le dossier que vous souhaitez
 ## 1. Créer un dossier qui va acceuillir l'application
 - Ouvrir un terminal 
 - Taper la commande ci-dessous pour savoir où vous vous trouvez dans l'arborescence des fichiers : 
@@ -116,7 +116,7 @@ Résolution des deltas: 100% (15/15), fait.
 BooksOnlineScraping
 ```
 
-#Quatrième étape : Creer un environnement virtuel 
+# Quatrième étape : Creer un environnement virtuel 
 ## 1. Creer un environnement virtuel
 
 - Aller dans le dossier de l'application
@@ -153,7 +153,7 @@ va s'excécuter
 >pip install -r requirements.txt
 ```
 
-#Cinquième étape : Lancer l'application BooksOnlineScraping
+# Cinquième étape : Lancer l'application BooksOnlineScraping
 
 Vous pouvez lancer l'application en tapant cette commande : 
 ```
