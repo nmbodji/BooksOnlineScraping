@@ -43,43 +43,38 @@ Applications > Utilitaires > Terminal.app
 ## Si vous êtes sur Windows
 Vous devez télécharger l'application via deux options :
 - soit  "Cygwin", que vous pouvez télécharger et installer en suivant les instructions du [site officiel](https://www.cygwin.com/install.html)
-- soit Le shell Bash pour Windows, que vous pouvez installer en suivant  (en français).[les instructions officielles de Microsoft](https://www.cygwin.com/install.html)
+- soit Le shell Bash pour Windows, que vous pouvez installer en suivant [les instructions officielles de Microsoft](https://docs.microsoft.com/fr-fr/windows/wsl/install)
 
 # Deuxième étape : Télécharger python
 L'application BooksOnlineScraping a été codé avec Python 3.9.7
 Vous pouvez télécharger cette version de python via ce [lien](https://www.python.org/downloads/)
 Si vous avez déjà python, et que vous voulez voir quelle version vous avez, tapez la commande ci-dessous : 
 ```
->python --version
-Python 3.9.7
+python --version
 ```
 # Troisième étape : Télécharger BooksOnlineScraping dans le dossier que vous souhaitez
 ## 1. Créer un dossier dans lequel va se trouver l'application
 - Ouvrir un terminal 
 - Taper la commande ci-dessous pour savoir où vous vous trouvez dans l'arborescence des fichiers : 
 ```
-> pwd
-/Users/najatmbodji
+pwd
 ```
 
 - Puis, taper la commande ls pour savoir que contient ce repertoire : 
 ```
-> ls
-Applications		Documents		Library			Music			Pictures		gretl			setuptools-33.1.1.zip
-Desktop			Downloads		Movies			OneDrive		Public			opt
+ls
 ```
 - Créer un nouveau dossier où vous allez récupérer l'application : 
 ```
-> mkdir Documents/WebScraping
+mkdir Documents/WebScraping
 ```
-- Déplacer-vous dans ce dossier à l'aide de la commande ci-dessous :
+- Déplacez-vous dans ce dossier à l'aide de la commande ci-dessous :
 ```
-> cd Documents/WebScraping 
+cd Documents/WebScraping 
 ```
 - Enfin, vérifier bien que vous êtes dans ce dossier en utilisant de nouveau la commande pwd : 
 ```
-> pwd 
-/Users/najatmbodji/Documents/WebScraping
+pwd 
 ```
 ## 2. Télécharger git : le gestionnaire de versions
 
@@ -98,20 +93,12 @@ Git Bash est l’interface permettant d’utiliser Git en ligne de commande.***
 
 - Exécuter la commande ci-dessous : 
 ```
-> git clone https://github.com/nmbodji/BooksOnlineScraping.git
-Clonage dans 'BooksOnlineScraping'...
-remote: Enumerating objects: 42, done.
-remote: Counting objects: 100% (42/42), done.
-remote: Compressing objects: 100% (27/27), done.
-remote: Total 42 (delta 15), reused 37 (delta 10), pack-reused 0
-Réception d'objets: 100% (42/42), 9.38 Kio | 1.04 Mio/s, fait.
-Résolution des deltas: 100% (15/15), fait.
+git clone https://github.com/nmbodji/BooksOnlineScraping.git
 ```
 
 - Si vous exécutez la commande ls, vous aurez un dossier Projet2BooksOnline
 ```
-> ls
-BooksOnlineScraping
+ls
 ```
 
 # Quatrième étape : Creer un environnement virtuel 
@@ -119,69 +106,40 @@ BooksOnlineScraping
 
 - Aller dans le dossier de l'application
 ```
-> cd BooksOnlineScraping
+cd BooksOnlineScraping
 ```
 - Vérifier que vous êtes bien dans le dossier avec la commande pwd 
 ```
-> pwd
-/Users/najatmbodji/Documents/WebScraping/BooksOnlineScraping
+pwd
 ```
 - Créer un nouvel environnement virtuel avec la commande ci-dessous. C'est l'environnement dans lequel l'application BooksOlineScraping
 va s'exécuter
 ```
-> python -m venv env
+python -m venv env
 ```
 - Un dossier 'env' est créé. Vérifier cela avec la commande ls
 ```
-> ls
-README.md		code_sources		env			requirements.txt
+ls
 ```
 
 ## 2. Activez un environnement virtuel
 
 - Activer l'environnement virtuel que vous avez créé à l'étape précédente : 
 ```
-> source env/bin/activate
+source env/bin/activate
 ```
 
 ## 3. Installer les paquets indispensables pour le lancement de l'application BooksOnlineScraping
 - Installer les paquets nécessaires à l'exécution de l'application
 ```
-> pip install -r requirements.txt
-Collecting beautifulsoup4==4.10.0
-  Using cached beautifulsoup4-4.10.0-py3-none-any.whl (97 kB)
-Collecting bs4==0.0.1
-  Using cached bs4-0.0.1.tar.gz (1.1 kB)
-Collecting cchardet==2.1.7
-  Using cached cchardet-2.1.7-cp39-cp39-macosx_10_9_x86_64.whl (124 kB)
-Collecting certifi==2021.10.8
-  Using cached certifi-2021.10.8-py2.py3-none-any.whl (149 kB)
-Collecting charset-normalizer==2.0.11
-  Using cached charset_normalizer-2.0.11-py3-none-any.whl (39 kB)
-Collecting idna==3.3
-  Using cached idna-3.3-py3-none-any.whl (61 kB)
-Collecting lxml==4.7.1
-  Using cached lxml-4.7.1-cp39-cp39-macosx_10_14_x86_64.whl (4.6 MB)
-Collecting requests==2.27.1
-  Using cached requests-2.27.1-py2.py3-none-any.whl (63 kB)
-Collecting soupsieve==2.3.1
-  Using cached soupsieve-2.3.1-py3-none-any.whl (37 kB)
-Collecting urllib3==1.26.8
-  Using cached urllib3-1.26.8-py2.py3-none-any.whl (138 kB)
-Using legacy 'setup.py install' for bs4, since package 'wheel' is not installed.
-Installing collected packages: soupsieve, urllib3, idna, charset-normalizer, certifi, beautifulsoup4, requests, lxml, cchardet, bs4
-    Running setup.py install for bs4 ... done
-Successfully installed beautifulsoup4-4.10.0 bs4-0.0.1 cchardet-2.1.7 certifi-2021.10.8 charset-normalizer-2.0.11 idna-3.3 lxml-4.7.1 requests-2.27.1 soupsieve-2.3.1 urllib3-1.26.8
-WARNING: You are using pip version 21.2.3; however, version 22.0.3 is available.
-You should consider upgrading via the '/Users/najatmbodji/Documents/WebScraping/BooksOnlineScraping/env/bin/python -m pip install --upgrade pip' command.
+pip install -r requirements.txt
 ```
 
 # Cinquième étape : Lancer l'application BooksOnlineScraping
 
 Vous pouvez lancer l'application en tapant cette commande : 
 ```
-> python code_sources/main.py
-
+python code_sources/main.py
 ```
 
 L'application se lancera et vous dira à chaque fois quelle catégorie de livres il est entrain de traiter.
