@@ -51,27 +51,28 @@ def create_csv_file_for_loading(category_name, csv_files_directory):
 
 
 def launch_web_scraping():
-    print("Starting web scraping of the web page : https://books.toscrape.com/index.html")
+    home_page_url = "https://books.toscrape.com/"
+    print(f"Starting web scraping of the web page : {home_page_url}")
     session = requests.Session()
-    books_toscrape_html_page = session.get("https://books.toscrape.com/index.html")
+    books_toscrape_html_page = session.get(home_page_url)
     web_html_page_soup = BeautifulSoup(books_toscrape_html_page.content, 'lxml')
     output_directory = create_output_directory()
     all_categories_html_objects = web_html_page_soup.find('ul', class_='nav nav-list').ul.find_all('li')
     for category_html_object in all_categories_html_objects:
         category_name = category_html_object.a.string.strip()
+        print(f"Starting web scraping for the category {category_name} ...")
         useful_directories = create_all_the_useful_directories(category_name, output_directory)
         csv_files_directory = useful_directories["directory_for_one_category"]
         pictures_directory = useful_directories["pictures_directory"]
-        print(f"Starting web scraping for the category {category_name} ...")
         csv_file_for_loading = create_csv_file_for_loading(category_name, csv_files_directory)
-        book_category_url = "https://books.toscrape.com/" + category_html_object.a["href"]
+        book_category_url = home_page_url + category_html_object.a["href"]
         CategoryPage.extract_transform_load_all_books_infos_from_category(book_category_url, csv_file_for_loading,
                                                                           category_name,
                                                                           pictures_directory,
                                                                           session)
 
         print(f"Web scraping done for the category {category_name}")
-    print("Web scraping done for the web page :  https://books.toscrape.com/index.html")
+    print(f"Web scraping done for the web page :  {home_page_url}")
 
 
 """Starting of web scraping program"""
